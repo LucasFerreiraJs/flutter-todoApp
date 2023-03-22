@@ -11,7 +11,6 @@ class TaskProvider {
   // traz a lista
   List<Task> readTasks() {
     var tasks = <Task>[];
-
     jsonDecode(_storage.read(taskKey).toString()).forEach((item) => {
           tasks.add(Task.fromJson(item)),
         });

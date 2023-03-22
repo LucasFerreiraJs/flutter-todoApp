@@ -6,6 +6,9 @@ class TaskRepository {
 
   TaskRepository({required this.taskProvider});
 
+  @override
   List<Task> readTasks() => taskProvider.readTasks();
+
+  @override
   void writeTasks(List<Task> tasks) => taskProvider.writeTasks(tasks);
 }
