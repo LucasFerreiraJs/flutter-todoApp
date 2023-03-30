@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:todoapp/app/data/services/storage/services.dart';
-import 'package:todoapp/app/modules/home/biding.dart';
-import 'package:todoapp/app/modules/home/view.dart';
+import 'package:todoapp/app/modules/home/home_biding.dart';
+import 'package:todoapp/app/modules/home/home_page.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

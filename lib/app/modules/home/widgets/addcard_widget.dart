@@ -4,14 +4,14 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:todoapp/app/core/utils/extensions.dart';
 import 'package:todoapp/app/data/models/task.dart';
-import 'package:todoapp/app/modules/home/controller.dart';
+import 'package:todoapp/app/modules/home/home_controller.dart';
 import 'package:todoapp/app/widgets/icons.dart';
 
 import '../../../core/values/colors.dart';
 
-class AddCard extends StatelessWidget {
+class AddCardWidget extends StatelessWidget {
   final homeController = Get.find<HomeController>();
-  AddCard({super.key});
+  AddCardWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +105,8 @@ class AddCard extends StatelessWidget {
               ),
             ),
           );
+          homeController.editController.clear();
+          homeController.changeChipIndex(0);
         },
         child: DottedBorder(
             color: Colors.grey[400]!,
