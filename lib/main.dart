@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'TodoApp with Getx',
-      home: const HomePage(),
+      home: HomePage(),
       debugShowCheckedModeBanner: false,
       initialBinding: HomeBinding(),
       builder: EasyLoading.init(),

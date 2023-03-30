@@ -9,34 +9,44 @@ class HomeController extends GetxController {
 
   final formKey = GlobalKey<FormState>();
   //make it observable
-  final tasks = <Task>[].obs;
+  final taskList = <Task>[].obs;
   final editController = TextEditingController();
   final chipIndex = 0.obs;
+  final deleting = false.obs;
 
   void changeChipIndex(int index) {
     chipIndex.value = index;
   }
 
   bool addTask(Task newTask) {
-    if (tasks.contains(newTask)) {
+    if (taskList.contains(newTask)) {
       return false;
     }
-    tasks.add(newTask);
+    taskList.add(newTask);
     return true;
+  }
+
+  void changeDeleting(bool value) {
+    deleting.value = value;
+  }
+
+  void deleteTask(Task task) {
+    taskList.remove(task);
   }
 
   @override
   void onInit() {
     super.onInit();
-    tasks.assignAll(taskRepository.readTasks());
+    taskList.assignAll(taskRepository.readTasks());
 
     // change
-    ever(tasks, (_) => taskRepository.writeTasks(tasks));
+    ever(taskList, (_) => taskRepository.writeTasks(taskList));
   }
 
   @override
   void onClose() {
     print("close");
+    editController.dispose();
     super.onClose();
   }
 }
