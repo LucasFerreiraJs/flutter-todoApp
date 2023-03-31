@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:todoapp/app/core/utils/extensions.dart';
 import 'package:todoapp/app/modules/home/home_controller.dart';
@@ -21,6 +22,8 @@ class AddTaskDialogWidget extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     Get.back();
+                    homeController.editController.clear();
+                    homeController.changeTask(null);
                   },
                   icon: const Icon(Icons.close),
                 ),
@@ -28,7 +31,24 @@ class AddTaskDialogWidget extends StatelessWidget {
                   style: ButtonStyle(
                     overlayColor: MaterialStateProperty.all(Colors.transparent),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (homeController.formKey.currentState!.validate()) {
+                      if (homeController.taskSelected.value == null) {
+                        EasyLoading.showError("Please, select task type");
+                      } else {
+                        var success = homeController.updateTask(homeController.taskSelected.value!, homeController.editController.text);
+                        if (success) {
+                          EasyLoading.showSuccess("Todo item add success!");
+                          Get.back();
+                          homeController.changeTask(null);
+                        } else {
+                          EasyLoading.showError("Todo item already exist");
+                        }
+
+                        homeController.editController.clear();
+                      }
+                    }
+                  },
                   child: Text(
                     "Done",
                     style: TextStyle(
@@ -78,23 +98,36 @@ class AddTaskDialogWidget extends StatelessWidget {
           ),
           ...homeController.taskList
               .map(
-                (item) => Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.0.wp, vertical: 3.0.wp),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        IconData(
-                          item.icon,
-                          fontFamily: 'MaterialIcons',
-                        ),
-                        color: HexColor.fromHex(item.color),
+                (item) => Obx(
+                  () => InkWell(
+                    onTap: () {
+                      homeController.changeTask(item);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.0.wp, vertical: 3.0.wp),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Icon(
+                                IconData(
+                                  item.icon,
+                                  fontFamily: 'MaterialIcons',
+                                ),
+                                color: HexColor.fromHex(item.color),
+                              ),
+                              SizedBox(width: 3.0.wp),
+                              Text(
+                                item.title,
+                                style: TextStyle(fontSize: 12.0.sp, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          if (homeController.taskSelected.value == item) const Icon(Icons.check, color: Colors.blue),
+                        ],
                       ),
-                      SizedBox(width: 3.0.wp),
-                      Text(
-                        item.title,
-                        style: TextStyle(fontSize: 12.0.sp, fontWeight: FontWeight.bold),
-                      )
-                    ],
+                    ),
                   ),
                 ),
               )
