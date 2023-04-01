@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:todoapp/app/core/utils/extensions.dart';
 import 'package:todoapp/app/modules/home/home_controller.dart';
 
-class DoingList extends StatelessWidget {
+class DoingListWidget extends StatelessWidget {
   final homeController = Get.find<HomeController>();
-  DoingList({super.key});
+  DoingListWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:todoapp/app/core/utils/extensions.dart';
-import 'package:todoapp/app/modules/details/widgets/DoingList_widget.dart';
+import 'package:todoapp/app/modules/details/widgets/DoneList_widget.dart';
+import 'package:todoapp/app/modules/details/widgets/doingList_widget.dart';
 import 'package:todoapp/app/modules/home/home_controller.dart';
 
 class DetailPage extends StatelessWidget {
@@ -127,7 +128,8 @@ class DetailPage extends StatelessWidget {
                 },
               ),
             ),
-            DoingList(),
+            DoingListWidget(),
+            DoneListWidget()
           ],
         ),
       ),
