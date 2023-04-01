@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:todoapp/app/data/models/task.dart';
@@ -14,6 +15,8 @@ class HomeController extends GetxController {
   final chipIndex = 0.obs;
   final deleting = false.obs;
   final taskSelected = Rx<Task?>(null);
+  final doingTodos = <dynamic>[].obs;
+  final doneTodos = <dynamic>[].obs;
 
   void changeChipIndex(int index) {
     chipIndex.value = index;
@@ -39,6 +42,27 @@ class HomeController extends GetxController {
     taskSelected.value = select;
   }
 
+  void changeTodos(List<dynamic> select) {
+    doingTodos.clear();
+    doneTodos.clear();
+
+    select.asMap().forEach((index, item) {
+      var todo = select[index];
+      var status = todo['done'];
+
+      if (status == true) {
+        doneTodos.add(todo);
+        return;
+      }
+
+      doingTodos.add(item);
+    });
+
+    print("doingTodos ${doingTodos.length}");
+    print("doneTodos ${doneTodos.length}");
+  }
+
+  // add todos
   bool updateTask(Task task, String title) {
     var todos = task.todos ?? [];
 
@@ -58,6 +82,47 @@ class HomeController extends GetxController {
 
   bool containTodo(List todos, String title) {
     return todos.any((element) => element['title'] == title);
+  }
+
+  bool addTodo(String title) {
+    var todo = {'title': title, 'done': false};
+    var doneTodo = {'title': title, 'done': false};
+    if (doingTodos.any((item) => mapEquals<String, dynamic>(todo, item))) {
+      return false;
+    }
+
+    if (doneTodos.any((item) => mapEquals<String, dynamic>(doneTodo, item))) {
+      return false;
+    }
+
+    doingTodos.add(todo);
+    return true;
+  }
+
+  void updateTodos() {
+    var newTodos = <Map<String, dynamic>>[];
+    newTodos.addAll({
+      ...doingTodos,
+      ...doneTodos,
+    });
+
+    var newTask = taskSelected.value!.copyWith(todos: newTodos);
+    int indexTaskSelected = taskList.indexOf(taskSelected.value);
+    taskList[indexTaskSelected] = newTask;
+    taskSelected.refresh();
+  }
+
+  void setDoneTodo(String title) {
+    var changeTodo = {'title': title, 'done': false};
+    var todoIndex = doingTodos.indexWhere((item) => mapEquals<String, dynamic>(item, changeTodo));
+
+    changeTodo['done'] = true;
+
+    doingTodos.removeAt(todoIndex);
+    doneTodos.add(changeTodo);
+
+    doingTodos.refresh();
+    doneTodos.refresh();
   }
 
   @override

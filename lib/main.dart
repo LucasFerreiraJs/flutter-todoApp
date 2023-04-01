@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'TodoApp with Getx',
-      home: HomePage(),
+      home: const HomePage(),
       debugShowCheckedModeBanner: false,
       initialBinding: HomeBinding(),
       builder: EasyLoading.init(),
@@ -32,4 +32,4 @@ class MyApp extends StatelessWidget {
 
 
 
-// 40:
+// 39:

@@ -58,6 +58,11 @@ class HomePage extends GetView<HomeController> {
             onPressed: () {
               print("float press");
 
+              if (controller.taskList.isEmpty) {
+                EasyLoading.showInfo("Plase create your task type");
+                return;
+              }
+
               Get.to(() => AddTaskDialogWidget(), transition: Transition.downToUp);
             },
             backgroundColor: controller.deleting.value ? Colors.red[400]! : blue,

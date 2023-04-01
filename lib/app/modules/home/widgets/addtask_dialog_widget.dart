@@ -44,7 +44,6 @@ class AddTaskDialogWidget extends StatelessWidget {
                         } else {
                           EasyLoading.showError("Todo item already exist");
                         }
-
                         homeController.editController.clear();
                       }
                     }

@@ -86,7 +86,7 @@ class AddCardWidget extends StatelessWidget {
                         int icon = icons[homeController.chipIndex.value].icon!.codePoint;
                         String color = icons[homeController.chipIndex.value].color!.toHex();
 
-                        var task = new Task(
+                        var task = Task(
                           title: homeController.editController.text,
                           icon: icon,
                           color: color,
